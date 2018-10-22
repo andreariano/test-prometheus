@@ -1,0 +1,30 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  test-prometheus
+  labels:
+    run: test-prometheus
+spec:
+  selector:
+    app:  test-prometheus
+  type:  NodePort
+  ports:
+  - name:  http
+    port:  80
+    targetPort:  3000
+    protocol: TCP
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: test-prometheus
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: test-prometheus
+    spec:
+      containers:
+      - name: test-prometheus
+        image: aariano/test-prometheus
